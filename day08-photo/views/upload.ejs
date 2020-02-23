@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>在线相册</title>
+  <title>上传图片</title>
   <link rel="stylesheet" href="/css/bootstrap.css">
   <style>
     .photo{
@@ -35,26 +35,17 @@
       </div>
     </div>
   </nav>
-
-  <div class="photo">
-    <% for(var i=0;i<dirs.length;i++){ %>
-      <div class="pics">
-        <a href="/pic/show?dirName=<%= dirs[i] %>">
-          <img src="/img/1.jpg" alt="" width="150px">
-          <h3><%= dirs[i] %></h3>
-        </a>
-        <a href="#" onclick="del('<%= dirs[i] %>')">删除</a>
-      </div>
-    <% } %>
-  </div>
-  <script>
-    function del(dirName){
-      var f = confirm("是否确定要删除此相册"+dirName+"?");
-      if(f){
-        //确定删除,向后台发送请求
-        location.href = "/dir/del/"+dirName;
-      }
-    }
-  </script>
+  <form action="/pic/upload" method="POST" enctype="multipart/form-data">
+    <h2>请选择相册</h2>
+    <select name="dirName">
+      <% for(var i=0;i<dirs.length;i++){ %>
+        <option value="<%= dirs[i] %>"><%= dirs[i] %></option>
+      <% } %>
+    </select>
+    <h2>选择图片</h2>
+    <input type="file" name="pic"><br>
+    <input type="submit">
+  </form>
+  
 </body>
 </html>
