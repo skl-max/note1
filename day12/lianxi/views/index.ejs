@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <style>
+    table{
+      border: 1px solid red;
+      width: 60%;
+      text-align: center;
+    }
+    td{
+      border: 1px solid red;
+    }
+  </style>
+</head>
+<body>
+  <table cellspacing="0">
+    <thead>
+      <tr>
+        <td>编号</td>
+        <td>名称</td>
+        <td>单价</td>
+        <td>数量</td>
+        <td>操作</td>
+      </tr>
+    </thead>
+    <tbody>
+    <% for(var i=0;i<shops.length;i++){ %>
+      <tr>
+        <td><%= shops[i].id %></td>
+        <td><%= shops[i].name %></td>
+        <td><%= shops[i].price %></td>
+        <td><%= shops[i].number %></td>
+        <td>
+          <a href="#" onclick="del('<%= shops[i]._id %>',this)">删除</a>
+          <a href="#" onclick="modify('this,<%= i %>')">修改</a>
+        </td>
+      </tr>
+    <% } %>
+  </tbody>
+  </table>
+  <a href="/add">进货</a>
+  
+  <script src="/jquery.min.js"></script>
+  <script>
+    var oldPrice; // 上一次点击但未修改的值
+    var oldNumber; // 上一次
+    var idx = -1; // 上一次点击的tr对应的下标
+    var oldMod = null; // 上一次点击的a标签
+    // 点击将要修改的数据,将其变为文本框
+    function modify(target,i){
+      if(idx!=-1){
+        var tr = $("tbody>tr")[idx]; // 取上一次被点击的tr
+        var tds = $(tr).children(); // tr下的所有td
+        tds[2].innerHTML = oldPrice; // 将上一次价格td还原为数值
+        tds[3].innerHTML = oldNumber; // 存货还原
+        $(tds[4]).children()[1].remove();
+        $(tds[4]).append(oldMod);
+      }
+      idx = i;
+      var $price = $(target).parent().prev().prev();
+      var $number = $(target).parent().prev();
+      console.log($(target).parent()[0]);
+      oldPrice = $price.html();
+      oldNumber = $number.html();
+      $price.html('<input type="number" value="'+oldPrice+'" >');
+      $number.html('<input type="number" value="'+oldNumber+'" >');
+      // 删除被点击的链接
+      oldMod = $(target).remove();
+      // 添加一个确定修改的按钮
+      var $button = $("<button onclick='send(this)'>确定</button>");
+      $number.next().append($button);
+    }
+    
+    // 发送请求,修改数据
+    function send(target){
+      var price = $(target).parent().prev().prev().children()[0].value.trim();
+      var number = $(target).parent().prev().children()[0].value.trim();
+      // 取_id
+      var str = $(target).prev().attr("onclick");
+      var _id=str.substring(str.indexOf("'")+1,str.lastIndexOf("'"));
+      // 两个文本框都没输入数据,不发送请求
+      if(price=="" || number==""){
+        alert("数据不能为空");
+        return ;
+      }
+      // 只有一个为空或都不为空,发送请求,修改数据
+      $.ajax({
+        url: "/update",
+        data: {price:price,number:number,_id:_id},
+        success: function(result){
+          console.log(result);
+          if(result.code==1 || result.code==2){ // 修改失败
+            console.log("修改失败");
+            // 将数据还原
+            var $td = $(target).parent();
+            $td.prev().prev().html(oldPrice);
+            $td.prev().html(oldNumber);
+            $(target).remove();
+            var $a = $("<a href='#' onclick='modify(this,"+idx+")'>修改</a>");
+            $td.append($a);
+            return ;
+          }
+          if(result.code==3){
+            alert("数据库数据已修改");
+          }
+          if(result.code==0){
+            alert("修改成功");
+          }
+          var $td = $(target).parent();
+          oldNumber = number;
+          oldPrice = price;
+          $td.prev().prev().html(price);
+          $td.prev().html(number);
+          $(target).remove();
+          var $a = $("<a href='#' onclick='modify(this,"+idx+")'>修改</a>");
+          $td.append($a);
+          
+        }
+      })
+    }
+    // 删除某一条数据
+    function del(id,target){
+      var f = confirm("是否要删除此数据?");
+      if(f){
+        $.ajax({
+          url: "/del?_id="+id,
+          success: function(result){
+            var code = result.code;
+            console.log(111);
+            if(code!=0){
+              alert("删除失败");
+            }else{
+              alert("删除成功");
+              $(target).parent().parent().remove();
+            }
+          }
+        })
+      }
+    }
+  </script>
+
+
+</body>
+</html>

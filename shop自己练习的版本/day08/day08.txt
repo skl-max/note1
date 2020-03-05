@@ -1,0 +1,48 @@
+使用NodeJS连接操作MongoDB数据库
+1. 使用mongodb连接数据库
+  1) 引入mongodb模块，获取客户端对象
+    var mongoClient = require('mongodb').MongoClient;
+  2) 通过客户端对象创建连接
+    mongoClient.connect('数据库地址',function(err,client){})
+    数据库地址：mongodb://ip:port
+    err:连接出错
+    client : 连接成功后得到的一个连接对象
+  3) 通过连接对象获取数据库名称
+    var db = client.db('数据库名称');
+  4) 通过db获取集合
+    var coll = db.collection('集合名称');
+  5) 使用集合来对数据库进行增删改查的操作
+    增加：
+      coll.insertOne({插入的数据},function(err,result){})
+      coll.insertMany([json对象],function(err,result){})
+    删除：
+      coll.deleteOne({条件},function(err,result){})
+      coll.deleteMany({条件},function(err,result){})
+    修改：
+      coll.updateOne({条件},{$set:{数据}},function(err,result){})
+      coll.updateMany({条件},{$set:{数据}},function(err,result){})
+    查询：
+      coll.find({}).toArray(function(err,docs){})
+
+  练习01：
+    访问localhost:4000
+    页面显示一个登陆表单
+        username,password,submit按钮，注册按钮
+    输入用户名密码，点击登陆，发送登陆请求
+    服务器端接收用户名与密码，根据用户名密码到数据库中查询数据
+    如果能查询到数据，说明用户名密码正确，页面显示：登陆成功
+    如果没有找到数据，说明用户名或者密码错误，
+    页面显示：用户名或密码错误，登陆失败
+
+  练习02：
+    商品展示
+    localhost:4000
+      页面将数据库中所有的商品以表格的形式展示
+          产品编号  产品名称   单价   库存      操作
+          1001      DeLL电脑  3400   20    删除  修改
+          1002      华硕电脑  2300    19   删除   修改
+          ....
+
+          进货
+
+

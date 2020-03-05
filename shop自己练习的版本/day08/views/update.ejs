@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+</head>
+<body>
+  <form action="/update">
+    <input type="text" value="<%=result._id%>" hidden name="id">
+    商品编号：<%= result.pid %> <br>
+    商品名称：<%= result.pname %> <br>
+    商品单价: <input type="text" name="price"
+     placeholder="<%=result.price%>"><br>
+    库存： <input type="text" name="count" placeholder="<%=result.count%>"><br>
+    <input type="submit" value="修改">
+  </form>
+</body>
+</html>

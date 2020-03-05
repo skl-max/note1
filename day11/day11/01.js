@@ -32,16 +32,16 @@ client.connect(function(err,result){
   
   
   // 改
-  /* collection.updateMany({age:23},{$set:{age:24}},function(err,result){
-    console.log(err);
-    console.log(result.result);
-    client.close();
-  }) */
-  /* collection.updateOne({age:24},{$set:{id:118,name:"ccc"}},function(err,result){
-    console.log(err);
-    console.log(result.result);
-    client.close();
-  }); */
+  //  collection.updateMany({age:23},{$set:{age:24}},function(err,result){
+  //   console.log(err);
+  //   console.log(result.result);
+  //   client.close();
+  // }) 
+  //  collection.updateOne({age:24},{$set:{id:118,name:"ccc"}},function(err,result){
+  //   console.log(err);
+  //   console.log(result.result);
+  //   client.close();
+  // }); 
   
   
   

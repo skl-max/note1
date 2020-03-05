@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+  <div>
+    <div class="nav">
+      <% if(isLogin){ %>
+        <h4>欢迎你,<%= username %></h4>
+      <% }else{ %>
+        <form action="/login">
+          <input type="text" name="username">
+          <button type="submit">登录</button>
+        </form>
+      <% } %>
+    </div>
+  </div>
+  <h1>模拟网页内容</h1>
+  <h1>模拟网页内容</h1>
+  <h1>模拟网页内容</h1>
+  <h1>模拟网页内容</h1>
+</body>
+</html>
