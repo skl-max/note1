@@ -1,9 +1,0 @@
-ES6
-  ECMAScript6
-  ECMAScript2015
-
-1.let(声明变量)与const(声明常量)
-  新增了变量的声明方式let
-  新增了一个作用域:块级作用域
-  ES6中,默认是严格模式的
-
