@@ -1,0 +1,37 @@
+Promise对象
+  ES6为异步编程提供的一个新的对象,可以使用同步的方式来处理异步操作
+
+  Promise对象有3种状态:
+    pending: 表示等待状态,指事件还在处理过程中,有可能成功,也有可能失败
+      如果成功,则状态转变为fulfilled
+      如果失败,则转变为rejected
+      一旦状态发生改变,便无法再更改
+    fulfilled: 表示成功的状态,指异步操作完成,也可以称之为resolved
+    rejected: 表示失败的状态,指异步操作被拒绝
+
+    pending状态可以转换为fulfilled或rejected,但是不能倒过来转换
+    fulfilled和rejected不能相互转换
+    
+
+模块化
+  导出模块: export
+  导入模块: import
+
+
+babel
+  babel是一个Javascript的编译器
+  将ES6代码编译为ES5的语法格式
+
+  安装:
+    npm install babel-preset-env
+    npm install babel-cli -g
+
+  配置:
+    在根目录下新建.babelrc文件
+    在其中添加"presets": ["env"]
+  
+  新建ES5和ES6文件夹
+    ES6中存放es6的文件,ES5中存放将要生成的es5代码
+
+  在命令行中输入命令:
+    babel ES6 -d ES5
